@@ -58,42 +58,41 @@ class Board {
   /**
     * We return the full rank/file by it's index
     */
-  private def rank(i: Int): LinearSection = {
+  def rank(i: Int): LinearSection = {
     require(i >= 1 && i <= 8, f"invalid rank, got $i")
     (0 to 7).map(file => board(file + (i-1)*8))
   }
 
-  private def rank(p1: Position, p2: Position): LinearSection = {
+  def rank(p1: Position, p2: Position): LinearSection = {
     require(p1.rank == p2.rank, f"positions's rank must be the same, got ($p1, $p2)")
     (p1.file to p2.file).map(f => pieceAt(p1.rank, f))
   }
 
-  private def file(p1: Position, p2: Position): LinearSection = {
+  def file(p1: Position, p2: Position): LinearSection = {
     require(p1.file == p2.file, f"positions's file must be the same, got ($p1, $p2)")
     (p1.rank to p2.rank).map(r => pieceAt(r, p1.file))
   }
 
-  private def file(i: Int): LinearSection = {
+  def file(i: Int): LinearSection = {
     require(i >= 1 && i <= 8, f"invalid file, got $i")
     (0 to 7).map(rank => board((i-1) + 8*rank))
   }
 
 
-  def diagIteration(acc: Seq[Position], ranks: Int, files: Int): Seq[Position] = {
-    val acc_ = (ranks, files) match {
+  def diagIteration(acc: Seq[Position], ranks: Int, files: Int): Seq[Position] =
+    (ranks, files) match {
       case (0, 0) => acc
-      case (r, f) if r > 0 && f > 0 => acc :+ acc.last.diagRightUp
-      case (r, f) if r < 0 && f > 0 => acc :+ acc.last.diagRightDown
-      case (r, f) if r > 0 && f < 0 => acc :+ acc.last.diagLeftUp
-      case (r, f) if r < 0 && f < 0 => acc :+ acc.last.diagLeftDown
+      case (r, f) if r > 0 && f > 0 => diagIteration(acc :+ acc.last.diagRightUp, r-1,f-1)
+      case (r, f) if r < 0 && f > 0 => diagIteration(acc :+ acc.last.diagRightDown, r+1,f-1)
+      case (r, f) if r > 0 && f < 0 => diagIteration(acc :+ acc.last.diagLeftUp, r-1,f+1)
+      case (r, f) if r < 0 && f < 0 => diagIteration(acc :+ acc.last.diagLeftDown, r+1,f+1)
     }
-    diagIteration(acc_, ranks - 1, files - 1)
-  }
+
 
   /**
     * Returns a [[LinearSection]] from the board starting from
     */
-  private def diag(p1: Position, p2: Position): LinearSection = {
+  def diag(p1: Position, p2: Position): LinearSection = {
     require(p1 diagonalTo p2, s"positions are not diagonal to one another, got ($p1, $p2)")
     val (r,f) = p1 manhattanSteps p2
     diagIteration(p1 :: Nil,r,f).map(pieceAt)

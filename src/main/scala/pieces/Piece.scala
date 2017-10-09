@@ -1,11 +1,16 @@
 package pieces
 
-trait Piece {
+trait Piece extends PieceType {
   val name: String
   val color: Byte
+
+  override def equals(obj: scala.Any) = obj match {
+    case p: Piece => this.name == p.name && this.color == p.color && this.pieceType == p.pieceType
+    case _ => super.equals(obj)
+  }
 }
 
-trait WhitePiece extends Piece with PieceType {
+trait WhitePiece extends Piece {
   val color = 0
   val name = "White " + pieceType
 }
@@ -59,6 +64,7 @@ object PieceRenderer {
     case Some(_: BlackPiece with KnightPieceType) => "\u265D"
     case Some(_: BlackPiece with RookPieceType)   => "\u265E"
     case Some(_: BlackPiece with PawnPieceType)   => "\u265F"
+    case _ => throw new Exception("unknown piece") // should be unreachable
   }
 }
 
