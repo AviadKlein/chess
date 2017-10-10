@@ -26,6 +26,12 @@ trait RookPieceType extends PieceType {
 
 trait PawnPieceType extends PieceType {
   val pieceType: String = "Pawn"
-  private var moved: Boolean = false
-  def canMove2: Boolean = !moved
 }
+
+/**
+  * [[Moved]] and [[Unmoved]] are flags used for [[PawnPieceType]], [[RookPieceType]] and [[KingPieceType]]
+  * Since these pieces have special moves before they are ever moved then they have these extending traits
+  */
+trait Moved
+
+trait Unmoved

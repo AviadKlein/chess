@@ -1,13 +1,12 @@
 package pieces
 
+/**
+  * A Piece inherits from [[PieceType]] and has a name that describes it
+  * It has a color, either 0 - white or 1 black
+  */
 trait Piece extends PieceType {
   val name: String
   val color: Byte
-
-  override def equals(obj: scala.Any) = obj match {
-    case p: Piece => this.name == p.name && this.color == p.color && this.pieceType == p.pieceType
-    case _ => super.equals(obj)
-  }
 }
 
 trait WhitePiece extends Piece {
@@ -20,33 +19,59 @@ trait BlackPiece extends Piece with PieceType {
   val name = "Black" + pieceType
 }
 
-case object WhiteKing extends WhitePiece with KingPieceType 
+trait WhitePawn extends WhitePiece with PawnPieceType {
+  val direction: Int = 1
+}
+
+trait BlackPawn extends BlackPiece with PawnPieceType {
+  val direction: Int = -1
+}
+
+trait EnPassant extends PawnPieceType
+
+class WhiteKing extends WhitePiece with KingPieceType
 class WhiteQueen extends WhitePiece with QueenPieceType 
 class WhiteBishop extends WhitePiece with BishopPieceType
 class WhiteKnight extends WhitePiece with KnightPieceType
 class WhiteRook extends WhitePiece with RookPieceType
-case object WhitePawn1 extends WhitePiece with PawnPieceType
-case object WhitePawn2 extends WhitePiece with PawnPieceType
-case object WhitePawn3 extends WhitePiece with PawnPieceType
-case object WhitePawn4 extends WhitePiece with PawnPieceType
-case object WhitePawn5 extends WhitePiece with PawnPieceType
-case object WhitePawn6 extends WhitePiece with PawnPieceType
-case object WhitePawn7 extends WhitePiece with PawnPieceType
-case object WhitePawn8 extends WhitePiece with PawnPieceType
+case object UnmovedWhitePawn1 extends WhitePawn with Unmoved
+case object UnmovedWhitePawn2 extends WhitePawn with Unmoved
+case object UnmovedWhitePawn3 extends WhitePawn with Unmoved
+case object UnmovedWhitePawn4 extends WhitePawn with Unmoved
+case object UnmovedWhitePawn5 extends WhitePawn with Unmoved
+case object UnmovedWhitePawn6 extends WhitePawn with Unmoved
+case object UnmovedWhitePawn7 extends WhitePawn with Unmoved
+case object UnmovedWhitePawn8 extends WhitePawn with Unmoved
+case object MovedWhitePawn1 extends WhitePawn with Moved
+case object MovedWhitePawn2 extends WhitePawn with Moved
+case object MovedWhitePawn3 extends WhitePawn with Moved
+case object MovedWhitePawn4 extends WhitePawn with Moved
+case object MovedWhitePawn5 extends WhitePawn with Moved
+case object MovedWhitePawn6 extends WhitePawn with Moved
+case object MovedWhitePawn7 extends WhitePawn with Moved
+case object MovedWhitePawn8 extends WhitePawn with Moved
 
-case object BlackKing extends BlackPiece with KingPieceType
+class BlackKing extends BlackPiece with KingPieceType
 class BlackQueen extends BlackPiece with QueenPieceType
 class BlackBishop extends BlackPiece with BishopPieceType
 class BlackKnight extends BlackPiece with KnightPieceType
 class BlackRook extends BlackPiece with RookPieceType
-case object BlackPawn1 extends BlackPiece with PawnPieceType
-case object BlackPawn2 extends BlackPiece with PawnPieceType
-case object BlackPawn3 extends BlackPiece with PawnPieceType
-case object BlackPawn4 extends BlackPiece with PawnPieceType
-case object BlackPawn5 extends BlackPiece with PawnPieceType
-case object BlackPawn6 extends BlackPiece with PawnPieceType
-case object BlackPawn7 extends BlackPiece with PawnPieceType
-case object BlackPawn8 extends BlackPiece with PawnPieceType
+case object UnmovedBlackPawn1 extends BlackPawn with Unmoved
+case object UnmovedBlackPawn2 extends BlackPawn with Unmoved
+case object UnmovedBlackPawn3 extends BlackPawn with Unmoved
+case object UnmovedBlackPawn4 extends BlackPawn with Unmoved
+case object UnmovedBlackPawn5 extends BlackPawn with Unmoved
+case object UnmovedBlackPawn6 extends BlackPawn with Unmoved
+case object UnmovedBlackPawn7 extends BlackPawn with Unmoved
+case object UnmovedBlackPawn8 extends BlackPawn with Unmoved
+case object MovedBlackPawn1 extends BlackPawn with Moved
+case object MovedBlackPawn2 extends BlackPawn with Moved
+case object MovedBlackPawn3 extends BlackPawn with Moved
+case object MovedBlackPawn4 extends BlackPawn with Moved
+case object MovedBlackPawn5 extends BlackPawn with Moved
+case object MovedBlackPawn6 extends BlackPawn with Moved
+case object MovedBlackPawn7 extends BlackPawn with Moved
+case object MovedBlackPawn8 extends BlackPawn with Moved
 
 
 object PieceRenderer {
@@ -69,42 +94,42 @@ object PieceRenderer {
 }
 
 object Pieces {
-  val whitePieces = new WhiteRook ::
+  val whitePieces = new WhiteRook with Unmoved ::
     new WhiteKnight ::
     new WhiteBishop ::
     new WhiteQueen ::
-    WhiteKing ::
+    new WhiteKing with Unmoved ::
     new WhiteBishop ::
     new WhiteKnight ::
-    new WhiteRook ::
-    WhitePawn1 ::
-    WhitePawn2 ::
-    WhitePawn3 ::
-    WhitePawn4 ::
-    WhitePawn5 ::
-    WhitePawn6 ::
-    WhitePawn7 ::
-    WhitePawn8 :: Nil
+    new WhiteRook  with Unmoved ::
+    UnmovedWhitePawn1 ::
+    UnmovedWhitePawn2 ::
+    UnmovedWhitePawn3 ::
+    UnmovedWhitePawn4 ::
+    UnmovedWhitePawn5 ::
+    UnmovedWhitePawn6 ::
+    UnmovedWhitePawn7 ::
+    UnmovedWhitePawn8 :: Nil
 
   val whiteInit = whitePieces.zip(0 to 15)
-  
+
   val blackPieces =
-    BlackPawn1 ::
-    BlackPawn2 ::
-    BlackPawn3 ::
-    BlackPawn4 ::
-    BlackPawn5 ::
-    BlackPawn6 ::
-    BlackPawn7 ::
-    BlackPawn8 ::
-    new BlackRook ::
+    UnmovedBlackPawn1 ::
+    UnmovedBlackPawn2 ::
+    UnmovedBlackPawn3 ::
+    UnmovedBlackPawn4 ::
+    UnmovedBlackPawn5 ::
+    UnmovedBlackPawn6 ::
+    UnmovedBlackPawn7 ::
+    UnmovedBlackPawn8 ::
+    new BlackRook with Unmoved ::
     new BlackKnight ::
     new BlackBishop ::
     new BlackQueen ::
-    BlackKing ::
+    new BlackKing with Unmoved ::
     new BlackBishop ::
     new BlackKnight ::
-    new BlackRook ::
+    new BlackRook with Unmoved ::
      Nil
 
   val blackInit = blackPieces.zip(48 to 63)

@@ -6,7 +6,7 @@ class PositionTest extends FunSuite {
 
   test("creation") {
 
-    Position(2,2)
+    println(Position(2,2))
 
   }
 
@@ -114,21 +114,21 @@ class PositionTest extends FunSuite {
 
   test("diagonalTo returns `true` when two Positions are diagonal to one another") {
 
-    assert(Position(1,1) diagonalTo Position(5,5))
-    assert(Position(2,3) diagonalTo Position(5,6))
-    assert(Position(4,3) diagonalTo Position(6,1))
-    assert(Position(8,8) diagonalTo Position(1,1))
-    assert(Position(8,1) diagonalTo Position(1,8))
+    assert(Position(1,1) isDiagonalTo Position(5,5))
+    assert(Position(2,3) isDiagonalTo Position(5,6))
+    assert(Position(4,3) isDiagonalTo Position(6,1))
+    assert(Position(8,8) isDiagonalTo Position(1,1))
+    assert(Position(8,1) isDiagonalTo Position(1,8))
 
   }
 
   test("diagonalTo returns `false` when two Positions are not diagonal to one another") {
 
-    assert(!(Position(1,1) diagonalTo Position(4,5)))
-    assert(!(Position(2,3) diagonalTo Position(4,6)))
-    assert(!(Position(4,3) diagonalTo Position(2,2)))
-    assert(!(Position(8,8) diagonalTo Position(7,1)))
-    assert(!(Position(8,1) diagonalTo Position(5,8)))
+    assert(!(Position(1,1) isDiagonalTo Position(4,5)))
+    assert(!(Position(2,3) isDiagonalTo Position(4,6)))
+    assert(!(Position(4,3) isDiagonalTo Position(2,2)))
+    assert(!(Position(8,8) isDiagonalTo Position(7,1)))
+    assert(!(Position(8,1) isDiagonalTo Position(5,8)))
 
   }
 
