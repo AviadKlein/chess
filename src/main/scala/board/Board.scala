@@ -52,7 +52,7 @@ class Board {
   /**
     * Return an optional piece in a position
     */
-  private def pieceAt(position: Position): Option[Piece] = board(position.index)
+  def pieceAt(position: Position): Option[Piece] = board(position.index)
   def pieceAt(r: Int, f: Int): Option[Piece] = board(Position(r,f).index)
 
   /**
@@ -103,7 +103,7 @@ class Board {
 
 }
 
-private [board] case class Position(rank: Int, file: Int) {
+case class Position(rank: Int, file: Int) {
   require(rank >= 1 && rank <= 8, s"Invalid position, got ($rank, $file)")
   require(file >= 1 && file <= 8, s"Invalid position, got ($rank, $file)")
   val index = (rank-1)*8  +file - 1
@@ -120,7 +120,7 @@ private [board] case class Position(rank: Int, file: Int) {
   def diagLeftDown = Position(rank - 1, file - 1)
 }
 
-private [board] object Position {
+object Position {
   def apply(index: Int): Position = {
     require(index >= 0 && index <= 63, s"index must be between 0 and 63, got $index")
     Position(index / 8 + 1,index % 8 + 1)
